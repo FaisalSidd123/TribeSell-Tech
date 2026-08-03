@@ -24,26 +24,62 @@ const PRINCIPLES = [
   }
 ];
 
+// Shared animation constants
+const ease = [0.16, 1, 0.3, 1];
+const viewport = { once: true, amount: 0.2 };
+
 export default function WhyUs() {
   return (
     <section id="why-us" className="py-24 md:py-32 bg-[#FAFAF9] relative z-10 border-t border-[#0F0F0F]/5">
       <div className="max-w-7xl mx-auto px-6">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           {/* Left Column - Principles (Numbered List) */}
           <div className="lg:col-span-7 text-left">
-            <p className="text-xs font-bold tracking-widest text-indigo-600 uppercase mb-3">Why TribeSell</p>
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-[#0F0F0F] mb-12 max-w-lg">
-              We design and build with rigorous standards.
-            </h2>
+            {/* Eyebrow pill badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewport}
+              transition={{ duration: 0.6, ease }}
+              className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-500/8 border border-indigo-500/10 rounded-full mb-5"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
+              <span className="text-[10px] font-bold tracking-[0.15em] text-indigo-700 uppercase">Why TribeSell</span>
+            </motion.div>
 
-            <div className="space-y-12">
-              {PRINCIPLES.map((principle) => (
-                <div key={principle.num} className="flex gap-6 md:gap-10 border-b border-[#0F0F0F]/5 pb-10 last:border-b-0 last:pb-0">
-                  {/* Big Number */}
-                  <span className="text-2xl font-display font-bold text-indigo-600 shrink-0">
+            {/* Split-weight headline */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewport}
+              transition={{ duration: 0.8, ease, delay: 0.1 }}
+              className="text-3xl md:text-4xl font-display font-bold tracking-tight leading-[1.15] mb-12 max-w-lg"
+            >
+              <span className="text-[#0F0F0F]">We design and build </span>
+              <span className="text-neutral-400">with rigorous standards.</span>
+            </motion.h2>
+
+            <div className="space-y-0">
+              {PRINCIPLES.map((principle, idx) => (
+                <motion.div
+                  key={principle.num}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={viewport}
+                  transition={{ duration: 0.7, ease, delay: 0.2 + idx * 0.12 }}
+                  className="flex gap-6 md:gap-10 border-b border-[#0F0F0F]/5 py-10 first:pt-0 last:border-b-0 last:pb-0"
+                >
+                  {/* Big Number — scale entrance */}
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={viewport}
+                    transition={{ duration: 0.5, ease, delay: 0.3 + idx * 0.12 }}
+                    className="text-2xl font-display font-bold text-indigo-600/80 shrink-0"
+                  >
                     {principle.num}
-                  </span>
+                  </motion.span>
                   
                   {/* Content */}
                   <div>
@@ -54,13 +90,19 @@ export default function WhyUs() {
                       {principle.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
           {/* Right Column - Premium Studio Photo */}
-          <div className="lg:col-span-5 relative flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 1, ease, delay: 0.3 }}
+            className="lg:col-span-5 relative flex justify-center lg:sticky lg:top-32"
+          >
             {/* Soft decorative background shape */}
             <div className="absolute inset-0 bg-indigo-500/5 rounded-2xl -rotate-2 scale-102 blur-sm pointer-events-none" />
 
@@ -72,7 +114,7 @@ export default function WhyUs() {
                 draggable="false"
               />
             </div>
-          </div>
+          </motion.div>
         </div>
 
       </div>

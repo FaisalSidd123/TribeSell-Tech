@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle2, ArrowRight } from 'lucide-react';
 
+// Shared animation constants
+const ease = [0.16, 1, 0.3, 1];
+const viewport = { once: true, amount: 0.2 };
+
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', budget: '$10k - $25k', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,15 +31,24 @@ export default function Contact() {
   return (
     <section id="contact" className="py-32 bg-[#0F0F10] relative z-10 overflow-hidden">
 
-
-
       {/* Ambient glowing wash shape */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[130px] pointer-events-none z-0" />
+
+      {/* Ghost number background */}
+      <div className="absolute top-8 left-6 md:left-16 text-[180px] md:text-[240px] font-display font-bold text-white/[0.02] leading-none select-none pointer-events-none z-0">
+        05
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Soft Accent-Tinted Band Card */}
-        <div className="bg-indigo-500/5 border border-white/5 rounded-3xl p-8 md:p-16 text-left relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewport}
+          transition={{ duration: 0.9, ease }}
+          className="bg-indigo-500/5 border border-white/5 rounded-3xl p-8 md:p-16 text-left relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16"
+        >
           
           {/* Background Wash inside Card */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[80px] pointer-events-none" />
@@ -43,16 +56,47 @@ export default function Contact() {
           {/* Left Column (Info) */}
           <div className="lg:col-span-5 flex flex-col justify-between relative z-10">
             <div>
-              <p className="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-3">Get In Touch</p>
-              <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6 leading-tight">
+              {/* Eyebrow pill badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={viewport}
+                transition={{ duration: 0.6, ease }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-500/10 border border-indigo-500/15 rounded-full mb-5"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                <span className="text-[10px] font-bold tracking-[0.15em] text-indigo-400 uppercase">Get In Touch</span>
+              </motion.div>
+
+              {/* Dramatic CTA headline — scales in */}
+              <motion.h2
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={viewport}
+                transition={{ duration: 0.9, ease, delay: 0.1 }}
+                className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6 leading-tight max-w-md"
+              >
                 Let's construct <br />something <span className="text-indigo-400">great.</span>
-              </h2>
-              <p className="text-neutral-400 text-sm leading-relaxed max-w-sm mb-8">
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={viewport}
+                transition={{ duration: 0.8, ease, delay: 0.2 }}
+                className="text-neutral-400 text-sm leading-relaxed max-w-sm mb-8"
+              >
                 Tell us about your web, mobile, or branding specifications. Our senior engineers will review and schedule a direct strategy session.
-              </p>
+              </motion.p>
             </div>
 
-            <div className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewport}
+              transition={{ duration: 0.7, ease, delay: 0.3 }}
+              className="space-y-4"
+            >
               <div>
                 <p className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase">Direct Email</p>
                 <a href="mailto:hello@tribesell.com" className="text-base font-semibold text-white hover:text-indigo-400 transition-colors">
@@ -65,11 +109,17 @@ export default function Contact() {
                   San Francisco &bull; Berlin &bull; Remote
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right Column (Interactive Form) */}
-          <div className="lg:col-span-7 relative z-10 bg-[#161618] border border-white/5 rounded-2xl p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+          {/* Right Column (Interactive Form) — delayed spring slide-up */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ type: "spring", stiffness: 200, damping: 30, delay: 0.3 }}
+            className="lg:col-span-7 relative z-10 bg-[#161618] border border-white/5 rounded-2xl p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+          >
             {isSuccess ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -160,11 +210,13 @@ export default function Contact() {
                   />
                 </div>
 
-                {/* Submit Button */}
-                <button
+                {/* Submit Button — spring pop-in */}
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-medium rounded-xl shadow-md transition-all cursor-pointer"
+                  whileHover={{ y: -3, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-medium rounded-xl shadow-md hover:shadow-lg hover:shadow-indigo-600/15 transition-all duration-250 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -180,12 +232,12 @@ export default function Contact() {
                       <Send className="w-4 h-4" />
                     </>
                   )}
-                </button>
+                </motion.button>
               </form>
             )}
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
 
       </div>
     </section>
